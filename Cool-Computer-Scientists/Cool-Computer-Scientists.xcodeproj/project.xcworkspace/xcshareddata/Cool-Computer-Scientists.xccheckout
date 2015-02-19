@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>962A71B9-D2EF-4461-9F97-55981F2689AA</string>
+	<key>IDESourceControlProjectName</key>
+	<string>Cool-Computer-Scientists</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>399CC57C660B7E4CF455A6E51BC07B997038824C</key>
+		<string>https://github.com/etrewitt/Cool-Computer-Scientists.git</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>Cool-Computer-Scientists/Cool-Computer-Scientists.xcodeproj</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>399CC57C660B7E4CF455A6E51BC07B997038824C</key>
+		<string>../../..</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>https://github.com/etrewitt/Cool-Computer-Scientists.git</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>111</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>399CC57C660B7E4CF455A6E51BC07B997038824C</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>399CC57C660B7E4CF455A6E51BC07B997038824C</string>
+			<key>IDESourceControlWCCName</key>
+			<string>Cool-Computer-Scientists</string>
+		</dict>
+	</array>
+</dict>
+</plist>
