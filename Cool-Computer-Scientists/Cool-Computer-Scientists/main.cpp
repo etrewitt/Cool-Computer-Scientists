@@ -2,14 +2,20 @@
 //  main.cpp
 //  Cool-Computer-Scientists
 //
-//  Created by Erik Trewitt on 2/18/15.
+//  Created by etrewitt on 2/18/15.
 //  Copyright (c) 2015 etrewitt. All rights reserved.
 //
+//  Commit #1
+
+// This has an example of a simple functor.
+#include "testing_functors.h"
 
 #include <iostream>
+#include <string>
 
 int main(int argc, const char * argv[]) {
-    // insert code here...
-    std::cout << "Hello, World!\n";
+    
+    pretend_main();
+    
     return 0;
 }
