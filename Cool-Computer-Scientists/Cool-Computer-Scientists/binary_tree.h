@@ -15,10 +15,10 @@
 
 template <typename T>
 struct TNode {
-    std::shared_ptr<T> data_;
+    T data_;
     TNode<T>* more_, less_, stem_;
     
-    TNode(std::shared_ptr<T>& data) {
+    TNode(const T& data) {
         data_ = data;
     }
 };
@@ -34,33 +34,24 @@ public:
     ~binary_tree();
     
     // this returns the closest node to a given object
+    // "closeness" is measued by the method the lessthan function uses
     TNode<T>* lookup(const std::shared_ptr<T>& data) const;
     
     // these do exactly what they sound like
-    void insert(std::shared_ptr<T>& data);
+    void insert(const T& data);
     void pop_min();
     void pop_max();
     
     // these access the min/max nodes
     const T& min() const;
     const T& max() const;
-    //    std::shared_ptr<T>& min() const;
-    //    std::shared_ptr<T>& max() const;
     
     // you can ignore this, at least for now, it's just a method to find
     // all elements in the tree that match an arbitrary equivalence function,
     // which is passed as a parameter
     typedef bool functype(const T& t) const;
     template <typename functype>
-    //    std::shared_ptr<T>& find(functype equalfunc);
     std::vector<T>& visit(functype equalfunc);
-    
-    /*
-     // this one is the same, except it wants a function that deals in std::shared_ptr
-     typedef bool ptrfunctype(std::shared_ptr<T> t_ptr) const;
-     template <typename ptrfunctype>
-     std::shared_ptr<T>& find(ptrfunctype equalfunc);
-     */
     
     // this is like the visit function, except instead of returning the matching objects, it does things to them
     typedef bool funcdo(const T& t);
