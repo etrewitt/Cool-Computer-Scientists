@@ -27,6 +27,43 @@ int pretend_main() {
     return 0;
 }
 
+#include "rb_tree.h"
+
+#include <vector>
+#include <random>
+
+int test_rb_tree() {
+    const int samplesize = 10;
+    
+    
+    rb_tree<int> tree;
+    
+    std::vector<int> v;
+    std::vector<int> input;
+    for (int i = 0; i < samplesize; i++) {
+        input.push_back(i);
+    }
+    
+    std::random_shuffle(input.begin(), input.end());
+    
+    for (int i = 0; i < input.size(); i++) {
+        tree.insert(input[i]);
+    }
+    
+    std::cout << "input is of size " << input.size() << "\n";
+    for (int i = 0; i < input.size(); i++) {
+        std::cout << input[i];
+        i < input.size()-1 ? std::cout << ", " : std::cout << "\n" << std::flush;
+    }
+    
+    tree.basic_print(std::cout);
+    
+    tree.insert(11);
+    tree.basic_print(std::cout);
+    
+    return 0;
+}
+
 // These were me messing around with function pointers; they can be safely ignored.
 
 //#define CALL_MEMBER_FN(object,ptrToMember)  ((object).*(ptrToMember))

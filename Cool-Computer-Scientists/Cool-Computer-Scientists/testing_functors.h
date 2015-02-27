@@ -33,6 +33,13 @@ public:
     }
 };
 
+class myFunctorDoClass {
+public:
+    void operator() (aClass& ac) {
+        ++(ac.ivar_);
+    }
+};
+
 template <typename T>
 class coolClass {
 private:
@@ -57,5 +64,7 @@ public:
 };
 
 int pretend_main();
+
+int test_rb_tree();
 
 #endif /* defined(__Cool_Computer_Scientists__testing_functors__) */

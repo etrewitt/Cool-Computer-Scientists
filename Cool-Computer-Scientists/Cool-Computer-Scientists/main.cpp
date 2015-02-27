@@ -15,7 +15,9 @@
 
 int main(int argc, const char * argv[]) {
     
-    pretend_main();
+//    pretend_main();
+    
+    test_rb_tree();
     
     return 0;
 }
