@@ -17,7 +17,9 @@ int main(int argc, const char * argv[]) {
     
 //    pretend_main();
     
-    test_rb_tree();
+//    test_rb_tree();
+    
+    test_rb_tree_with_teams();
     
     return 0;
 }

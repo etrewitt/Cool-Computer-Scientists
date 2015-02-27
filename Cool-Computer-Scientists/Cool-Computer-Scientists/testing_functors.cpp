@@ -64,6 +64,36 @@ int test_rb_tree() {
     return 0;
 }
 
+#include "Team.h"
+
+int test_rb_tree_with_teams() {
+    
+    rb_tree<Team> treeleague;
+    
+    vector<Team> pretendleague;
+    Team barcelona("barcelona", 20, 17, 2, 1, 32);
+    Team westsydney("western sydney", 20, 2, 16, 2, 4);
+    Team sanjose("san jose earthquakes", 20, 10, 8, 2, 14);
+    Team newyork("new york apples", 20, 13, 2, 5, 21);
+    Team greece("greek debt crisis", 20, 5, 12, 3, 8);
+    Team madrid("real madrid", 20, 0, 19, 1, 1);
+    
+    pretendleague.push_back(barcelona);
+    pretendleague.push_back(westsydney);
+    pretendleague.push_back(sanjose);
+    pretendleague.push_back(newyork);
+    pretendleague.push_back(greece);
+    pretendleague.push_back(madrid);
+    
+    for (int i = 0; i < pretendleague.size(); i++) {
+        treeleague.insert(pretendleague[i]);
+    }
+    
+    treeleague.basic_print(std::cout);
+    
+    return 0;
+}
+
 // These were me messing around with function pointers; they can be safely ignored.
 
 //#define CALL_MEMBER_FN(object,ptrToMember)  ((object).*(ptrToMember))

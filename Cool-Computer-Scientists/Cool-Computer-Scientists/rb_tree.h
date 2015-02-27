@@ -64,10 +64,12 @@ public:
         } else {
             rb_node* cursor = root_;
             while (true) {
+                /*
                 if (nu->data_ == cursor->data_) {
                     ++(cursor->data_);
                     break;
-                } else if (nu->data_ < cursor->data_) {
+                } else if (nu->data_ < cursor->data_) {*/
+                if (nu->data_ < cursor->data_) {
                     if (cursor->less_ == NULL) {
                         cursor->less(nu);
 //                        std::cerr << "created " << cursor->less_ << "\n";

@@ -67,4 +67,6 @@ int pretend_main();
 
 int test_rb_tree();
 
+int test_rb_tree_with_teams();
+
 #endif /* defined(__Cool_Computer_Scientists__testing_functors__) */
