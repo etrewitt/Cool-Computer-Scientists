@@ -22,8 +22,8 @@
 #include <vector>
 
 //template <typename T, typename lessthan, typename equalto>
-template <typename T, typename lessthan>
-//template <typename T>
+//template <typename T, typename lessthan>
+template <typename T>
 class rb_tree {
 private:
     enum color { RED, BLACK };
@@ -35,14 +35,14 @@ private:
     int size_;
     
     // these are to be implemented at a later date
-    lessthan less;
-    //    equalto equal;
+//    lessthan less;
+//    equalto equal;
 public:
     rb_tree() {
         root_ = NULL;
         size_ = 0;
     }
-    //    ~rb_tree();
+//    ~rb_tree();
     
     
     const T& root() const {
@@ -60,21 +60,19 @@ public:
         if (root_ == NULL) {
             root_ = nu;
             ++size_;
-            //            std::cerr << "created root to be " << nu << "\n";
+//            std::cerr << "created root to be " << nu << "\n";
         } else {
             rb_node* cursor = root_;
             while (true) {
                 /*
-                 if (nu->data_ == cursor->data_) {
-                 ++(cursor->data_);
-                 break;
-                 } else if (nu->data_ < cursor->data_) {*/
-                
-                //                if (nu->data_ < cursor->data_) {
-                if (less(nu->data_, cursor->data_)) {
+                if (nu->data_ == cursor->data_) {
+                    ++(cursor->data_);
+                    break;
+                } else if (nu->data_ < cursor->data_) {*/
+                if (nu->data_ < cursor->data_) {
                     if (cursor->less_ == NULL) {
                         cursor->less(nu);
-                        //                        std::cerr << "created " << cursor->less_ << "\n";
+//                        std::cerr << "created " << cursor->less_ << "\n";
                         ++size_;
                         break;
                     } else {
@@ -83,7 +81,7 @@ public:
                 } else {
                     if (cursor->more_ == NULL) {
                         cursor->more(nu);
-                        //                        std::cerr << "created " << cursor->more_ << "\n";
+//                        std::cerr << "created " << cursor->more_ << "\n";
                         ++size_;
                         break;
                     } else {
@@ -110,7 +108,7 @@ public:
     typedef void funcdo(T& t);
     template <typename funcfind, typename funcdo>
     void visit_do(funcfind equalfunc, funcdo dofunc);
-    
+
     
     // not yet fully implemented
     void remove(const T& data) {
@@ -143,7 +141,7 @@ public:
                 }
             } else {
                 
-                // !!!               // this needs to move pointers around
+// !!!               // this needs to move pointers around
                 rb_node* moreptr = node->more_;
                 rb_node* tempptr;
                 moreptr->parent_ = node->parent_;
@@ -303,8 +301,7 @@ private:
             while(true) {
                 if (data == cursor->data_) {
                     break;
-                    //                } else if (data < cursor->data_) {
-                } else if (less(data, cursor->data_)) {
+                } else if (data < cursor->data_) {
                     if (cursor->less_ == NULL) {
                         cursor == NULL;
                         break;

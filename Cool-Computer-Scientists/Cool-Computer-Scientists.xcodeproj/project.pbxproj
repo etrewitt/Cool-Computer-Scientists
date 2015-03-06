@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		66B1D8F61AA0926F00DC635F /* Team.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 66B1D8F41AA0926F00DC635F /* Team.cpp */; };
 		66D46BFB1A95BD4400EB0E59 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 66D46BFA1A95BD4400EB0E59 /* main.cpp */; };
 		66D46C031A95BDA700EB0E59 /* testing_functors.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 66D46C011A95BDA700EB0E59 /* testing_functors.cpp */; };
 /* End PBXBuildFile section */
@@ -24,7 +25,12 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		667DC5651AA94D7F00DA5372 /* test_rb_tree.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = test_rb_tree.h; sourceTree = "<group>"; };
+		667DC5671AA9509B00DA5372 /* old_rb_tree.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = old_rb_tree.h; sourceTree = "<group>"; };
 		66B1D8F31AA0866B00DC635F /* rb_tree.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = rb_tree.h; sourceTree = "<group>"; };
+		66B1D8F41AA0926F00DC635F /* Team.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Team.cpp; sourceTree = "<group>"; };
+		66B1D8F51AA0926F00DC635F /* Team.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Team.h; sourceTree = "<group>"; };
+		66B1D8FC1AA297AB00DC635F /* rb_tree_prototype.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = rb_tree_prototype.h; sourceTree = "<group>"; };
 		66D46BF71A95BD4400EB0E59 /* Cool-Computer-Scientists */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "Cool-Computer-Scientists"; sourceTree = BUILT_PRODUCTS_DIR; };
 		66D46BFA1A95BD4400EB0E59 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		66D46C011A95BDA700EB0E59 /* testing_functors.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = testing_functors.cpp; sourceTree = "<group>"; };
@@ -43,6 +49,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		66B1D8FB1AA2978900DC635F /* prototypes */ = {
+			isa = PBXGroup;
+			children = (
+				66B1D8FC1AA297AB00DC635F /* rb_tree_prototype.h */,
+			);
+			name = prototypes;
+			sourceTree = "<group>";
+		};
 		66D46BEE1A95BD4400EB0E59 = {
 			isa = PBXGroup;
 			children = (
@@ -65,8 +79,13 @@
 				66D46BFA1A95BD4400EB0E59 /* main.cpp */,
 				66D46C041A95BDB800EB0E59 /* binary_tree.h */,
 				66B1D8F31AA0866B00DC635F /* rb_tree.h */,
-				66D46C011A95BDA700EB0E59 /* testing_functors.cpp */,
+				667DC5671AA9509B00DA5372 /* old_rb_tree.h */,
+				667DC5651AA94D7F00DA5372 /* test_rb_tree.h */,
+				66B1D8F51AA0926F00DC635F /* Team.h */,
+				66B1D8F41AA0926F00DC635F /* Team.cpp */,
 				66D46C021A95BDA700EB0E59 /* testing_functors.h */,
+				66D46C011A95BDA700EB0E59 /* testing_functors.cpp */,
+				66B1D8FB1AA2978900DC635F /* prototypes */,
 			);
 			path = "Cool-Computer-Scientists";
 			sourceTree = "<group>";
@@ -127,6 +146,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				66B1D8F61AA0926F00DC635F /* Team.cpp in Sources */,
 				66D46C031A95BDA700EB0E59 /* testing_functors.cpp in Sources */,
 				66D46BFB1A95BD4400EB0E59 /* main.cpp in Sources */,
 			);

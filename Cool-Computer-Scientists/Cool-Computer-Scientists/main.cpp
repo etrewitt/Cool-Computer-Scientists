@@ -19,7 +19,11 @@ int main(int argc, const char * argv[]) {
     
 //    test_rb_tree();
     
-    test_rb_tree_with_teams();
+//    test_rb_tree_with_teams();
+    
+//    pretend_main_pointers();
+    
+    test_functor_tree();
     
     return 0;
 }
