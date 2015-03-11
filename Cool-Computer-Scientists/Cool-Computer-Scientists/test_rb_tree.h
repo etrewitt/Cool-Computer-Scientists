@@ -1,30 +1,26 @@
 //
-//  rb_tree.h
+//  test_rb_tree.h
 //  Cool-Computer-Scientists
 //
-//  Created by Erik Trewitt on 2/27/15.
+//  Created by Erik Trewitt on 3/5/15.
 //  Copyright (c) 2015 etrewitt. All rights reserved.
 //
 
-#ifndef Cool_Computer_Scientists_rb_tree_h
-#define Cool_Computer_Scientists_rb_tree_h
 
-/* RULES
- 1) all nodes are either red OR black
- 2) root is black (arbitrary)
- 3) NILs are black (same color as root)
- 4) every red node has two black children
- 5) every path from any node to any of its descendent NIL has the same number of black nodes
- */
+// DEPRECATED
+
+
+#ifndef Cool_Computer_Scientists_test_rb_tree_h
+#define Cool_Computer_Scientists_test_rb_tree_h
 
 #include <cstdlib>
 #include <iostream>
 #include <vector>
 
-template <typename T, typename lessthan, typename equalto>
-//template <typename T, typename lessthan>
+//template <typename T, typename lessthan, typename equalto>
+template <typename T, typename lessthan>
 //template <typename T>
-class rb_tree {
+class new_rb_tree {
 private:
     enum color { RED, BLACK };
     
@@ -36,40 +32,23 @@ private:
     
     // these are to be implemented at a later date
     lessthan less;
-    equalto equal;
+    //    equalto equal;
 public:
-    rb_tree() {
+    new_rb_tree() {
         root_ = NULL;
         size_ = 0;
     }
-    ~rb_tree() {
-        clear();
-    }
+    //    ~rb_tree();
+    
     
     const T& root() const {
         return root_->data_;
     }
-    const T& min() const {
-        /*rb_node* min = root_;
-        while (min->less_ != NULL) {
-            min = min->less_;
-        }
-        return min->data_;*/
-        return min(root_)->data_;
-    }
-    const T& max() const {
-        /*rb_node* max = root_;
-        while (max->more_ != NULL) {
-            max = max->more_;
-        }
-        return max->data_;*/
-        return max(root_)->data_;
-    }
+    const T& min() const;
+    const T& max() const;
     int size() const {
         return size_;
     }
-    
-    // not sure how to implement this yet
     int height() const;
     
     void insert(const T& data) {
@@ -86,8 +65,8 @@ public:
                  ++(cursor->data_);
                  break;
                  } else if (nu->data_ < cursor->data_) {*/
-                
-                //                if (nu->data_ < cursor->data_) {
+
+//                if (nu->data_ < cursor->data_) {
                 if (less(nu->data_, cursor->data_)) {
                     if (cursor->less_ == NULL) {
                         cursor->less(nu);
@@ -114,60 +93,19 @@ public:
     
     // this returns the closest node to a given object
     // "closeness" is measued by the method the lessthan function uses
-    // not sure how to implement this yet; I don't think it's even needed (or wanted)
     rb_node* lookup(const T& data) const;
-    
-    rb_node* find(const T& data) const {
-        rb_node* iter = root_;
-        while (iter != NULL) {
-            if (equal(data, iter->data_)) {
-                break;
-            } else if (less(data, iter->data_)) {
-                iter = iter->less_;
-            } else {
-                iter = iter->more_;
-            }
-        }
-        
-        return iter;
-    }
     
     // you can ignore this, at least for now, it's just a method to find
     // all elements in the tree that match an arbitrary equivalence function,
     // which is passed as a parameter
     typedef bool funcfind(const T& t) const;
     template <typename funcfind>
-    std::vector<T> visit_find(funcfind equalfunc, bool preorder=1) {
-        std::vector<T> vect;
-        
-        if (preorder) {
-            previsit_find(root_, vect, equalfunc);
-        } else {
-            postvisit_find(root_, vect, equalfunc);
-        }
-    }
+    std::vector<T>& visit(funcfind equalfunc);
     
     // this is like the visit function, except instead of returning the matching objects, it does things to them
     typedef void funcdo(T& t);
     template <typename funcfind, typename funcdo>
-    void visit_do(funcfind equalfunc, funcdo dofunc, bool preorder=1) {
-        if (preorder) {
-            previsit_do(root_, equalfunc, dofunc);
-        } else {
-            postvisit_find(root_, equalfunc, dofunc);
-        }
-    }
-    
-    // this one I just made and it can do either and/or if you write a good enough function
-    typedef void visitfunc(T& t);
-    template <typename visitfunc>
-    void visit(visitfunc func, bool preorder=1) {
-        if (preorder) {
-            previsit(root_, func);
-        } else {
-            postvisit(root_, func);
-        }
-    }
+    void visit_do(funcfind equalfunc, funcdo dofunc);
     
     
     // not yet fully implemented
@@ -217,16 +155,13 @@ public:
     }
     
     void print(std::ostream& out, std::string& delimiter, bool ascending=true) const;
-    
     void basic_print(std::ostream& out, std::string delimiter="\n") const {
         out << size_ << " elements in the tree:\n";
         basic_print(out, root_, delimiter);
         out << std::flush;
     }
     
-    void clear() {
-        clear(root_);
-    }
+    void clear();
     void rebalance();
     
     int* count_branches() const;
@@ -354,39 +289,27 @@ private:
             //            std::cerr << "l-rot about " << node->parent_->parent_->data_ <<"; ";
             rotate_left(node->grandparent());
         }
+        
     }
     
-    rb_node* max(rb_node* node) const {
-        while (node->more_ != NULL) {
-            node = node->more_;
-        }
-        return node;
-    }
-    rb_node* min(rb_node* node) const {
-        while (node->less_ != NULL) {
-            node = node->less_;
-        }
-        return node;
-    }
     
     rb_node* find_node(const T& data) const {
         rb_node* cursor = root_;
         if (root_ != NULL) {
             while(true) {
-//                if (data == cursor->data_) {
-                if (equal(data, cursor->data_)) {
+                if (data == cursor->data_) {
                     break;
-                    //                } else if (data < cursor->data_) {
+//                } else if (data < cursor->data_) {
                 } else if (less(data, cursor->data_)) {
                     if (cursor->less_ == NULL) {
-                        cursor = NULL;
+                        cursor == NULL;
                         break;
                     } else {
                         cursor = cursor->less_;
                     }
                 } else {
                     if (cursor->more_ == NULL) {
-                        cursor = NULL;
+                        cursor == NULL;
                         break;
                     } else {
                         cursor = cursor->more_;
@@ -395,83 +318,6 @@ private:
             }
         }
         return cursor;
-    }
-    
-    template <typename visitfunc>
-    void previsit(rb_node* node, visitfunc func) {
-        if (node == NULL) {
-            return;
-        } else {
-            func(node->data_);
-            
-            previsit_find(node->less_, func);
-            previsit_find(node->more_, func);
-        }
-    }
-    template <typename visitfunc>
-    void postvisit(rb_node* node, visitfunc func) {
-        if (node == NULL) {
-            return;
-        } else {
-            func(node->data_);
-            
-            postvisit_find(node->more_, func);
-            postvisit_find(node->less_, func);
-        }
-    }
-    
-    template <typename funcfind>
-    void previsit_find(rb_node* node, std::vector<T>& vect, funcfind equalfunc) const {
-        if (node == NULL) {
-            return;
-        } else {
-            if (equalfunc(node->data_)) {
-                vect.push_back(node->data_);
-            }
-            
-            previsit_find(node->less_, vect, equalfunc);
-            previsit_find(node->more_, vect, equalfunc);
-        }
-    }
-    template <typename funcfind>
-    void postvisit_find(rb_node* node, std::vector<T>& vect, funcfind equalfunc) const {
-        if (node == NULL) {
-            return;
-        } else {
-            if (equalfunc(node->data_)) {
-                vect.push_back(node->data_);
-            }
-            
-            postvisit_find(node->more_, vect, equalfunc);
-            postvisit_find(node->less_, vect, equalfunc);
-        }
-    }
-    
-    template <typename funcfind>
-    void previsit_do(rb_node* node, funcfind equalfunc, funcdo dofunc) {
-        if (node == NULL) {
-            return;
-        } else {
-            if (equalfunc(node->data_)) {
-                dofunc(node->data_);
-            }
-            
-            previsit_do(node->less_, equalfunc);
-            previsit_do(node->more_, equalfunc);
-        }
-    }
-    template <typename funcfind>
-    void postvisit_do(rb_node* node, funcfind equalfunc, funcdo dofunc) {
-        if (node == NULL) {
-            return;
-        } else {
-            if (equalfunc(node->data_)) {
-                dofunc(node->data_);
-            }
-            
-            postvisit_do(node->more_, equalfunc, dofunc);
-            postvisit_do(node->less_, equalfunc, dofunc);
-        }
     }
     
     void basic_print(std::ostream& out, rb_node* node, std::string delimiter) const {
@@ -501,19 +347,10 @@ private:
         }
     }
     
+    void clear(rb_node* node);
     void print_ascending(std::ostream& out, rb_node* node, std::string delimiter) const;
     void print_descending(std::ostream& out, rb_node* node, std::string delimiter) const;
-    
-    void clear(rb_node* node) {
-        if (node == NULL) {
-            return;
-        } else {
-            clear(node->more_);
-            clear(node->less_);
-            delete node;
-        }
-    }
-//    int count_leaves(rb_node* node) const;
+    int count_leaves(rb_node* node) const;
     
     
     struct rb_node {
@@ -582,5 +419,6 @@ private:
         }
     };
 };
+
 
 #endif
