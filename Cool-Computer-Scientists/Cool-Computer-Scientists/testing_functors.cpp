@@ -73,7 +73,13 @@ int pretend_main_pointers() {
 class less_teamname {
 public:
     bool operator() (const Team& t1, const Team& t2) {
-        return t1 < t2;
+        return t1.getName() < t2.getName();
+    }
+};
+class equal_teamname {
+public:
+    bool operator() (const Team& t1, const Team& t2) {
+        return t1.getName() == t2.getName();
     }
 };
 
@@ -83,10 +89,16 @@ public:
         return t1.getWin() < t2.getWin();
     }
 };
+class equal_wins {
+public:
+    bool operator() (const Team& t1, const Team& t2) {
+        return t1.getWin() == t2.getWin();
+    }
+};
 
 int test_functor_tree() {
-    rb_tree<Team, less_teamname> nameleague;
-    rb_tree<Team, less_wins> winsleague;
+    rb_tree<Team, less_teamname, equal_teamname> nameleague;
+    rb_tree<Team, less_wins, equal_wins> winsleague;
     
     Team barcelona("barcelona", 20, 17, 2, 1, 32);
     Team westsydney("western sydney", 20, 2, 16, 2, 4);
