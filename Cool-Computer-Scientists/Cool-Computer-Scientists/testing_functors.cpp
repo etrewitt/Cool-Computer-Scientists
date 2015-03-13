@@ -12,56 +12,6 @@
 
 #include "testing_functors.h"
 
-int pretend_main() {
-    aClass myObj;
-    
-    aClass a, b, c;
-    a.ivar_ = 4;
-    b.ivar_ = -9;
-    c.ivar_ = 16;
-    
-    coolClass<aClass> cc(a, c, b);
-    
-    myFunctorClass funct(b);
-    
-    std::cout << cc.find(funct) << std::endl;
-    
-    return 0;
-}
-
-int pretend_main_pointers() {
-    aClass *aptr = new aClass(4);
-    aClass *bptr = new aClass(-9);
-    aClass *cptr = new aClass(16);
-    
-    aClass a, b, c;
-    a.ivar_ = 4;
-    b.ivar_ = -9;
-    c.ivar_ = 16;
-    
-    int myvar;
-    std::ifstream fin("myfile.txt");
-    fin >> myvar;
-    
-    std::ifstream("myfile2.txt") >> myvar;
-    
-    std::vector<aClass> v;
-    
-    
-//    coolClass<aClass> cc(a, b, c);
-    coolClass_ptrs ccptr1(aptr, bptr, cptr);
-    coolClass_ptrs ccptr2(&a, &b, &c);
-    
-    pointer_less ptrless;
-    pointer_find ptrfind1(bptr);
-    pointer_find ptrfind2(bptr);
-    
-    std::cout << ccptr1.find(ptrfind1) << std::endl;
-    std::cout << ccptr2.find(ptrfind2) << std::endl;
-    
-    return 0;
-}
-
 #include "rb_tree.h"
 #include "Team.h"
 
@@ -226,3 +176,57 @@ int test_rb_tree_with_teams() {
  */
 
 //typedef bool (aClass::*icmp)(const aClass& b) const;
+
+
+// irrelevant
+/*
+int pretend_main() {
+    aClass myObj;
+    
+    aClass a, b, c;
+    a.ivar_ = 4;
+    b.ivar_ = -9;
+    c.ivar_ = 16;
+    
+    coolClass<aClass> cc(a, c, b);
+    
+    myFunctorClass funct(b);
+    
+    std::cout << cc.find(funct) << std::endl;
+    
+    return 0;
+}
+
+int pretend_main_pointers() {
+    aClass *aptr = new aClass(4);
+    aClass *bptr = new aClass(-9);
+    aClass *cptr = new aClass(16);
+    
+    aClass a, b, c;
+    a.ivar_ = 4;
+    b.ivar_ = -9;
+    c.ivar_ = 16;
+    
+    int myvar;
+    std::ifstream fin("myfile.txt");
+    fin >> myvar;
+    
+    std::ifstream("myfile2.txt") >> myvar;
+    
+    std::vector<aClass> v;
+    
+    
+    //    coolClass<aClass> cc(a, b, c);
+    coolClass_ptrs ccptr1(aptr, bptr, cptr);
+    coolClass_ptrs ccptr2(&a, &b, &c);
+    
+    pointer_less ptrless;
+    pointer_find ptrfind1(bptr);
+    pointer_find ptrfind2(bptr);
+    
+    std::cout << ccptr1.find(ptrfind1) << std::endl;
+    std::cout << ccptr2.find(ptrfind2) << std::endl;
+    
+    return 0;
+}
+*/
