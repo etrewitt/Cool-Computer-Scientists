@@ -19,6 +19,7 @@
 
 
 // print functors (for visit())
+/*
 class simpleprint {
 public:
     bool operator() (const Team& t1) {
@@ -37,7 +38,7 @@ public:
     bool operator() (const Team& t1) {
         t1.detailedprint();
     }
-};
+};*/
 
 
 // comparison functors
@@ -83,9 +84,14 @@ int test_functor_tree() {
     std::cout << "\n----------------\n\n" << std::flush;
     
 // this is how I'd currently have you print things
-    nameleague.visit(simpleprint);
-    nameleague.visit(normalprint);
-    nameleague.visit(detailedprint);
+    
+//    simpleprint sp;
+//    normalprint np;
+//    detailedprint dp;
+    
+//    nameleague.visit(sp);
+//    nameleague.visit(np);
+//    nameleague.visit(dp);
     
     return 0;
 }

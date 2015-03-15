@@ -50,19 +50,9 @@ public:
         return root_->data_;
     }
     const T& min() const {
-        /*rb_node* min = root_;
-        while (min->less_ != NULL) {
-            min = min->less_;
-        }
-        return min->data_;*/
         return min(root_)->data_;
     }
     const T& max() const {
-        /*rb_node* max = root_;
-        while (max->more_ != NULL) {
-            max = max->more_;
-        }
-        return max->data_;*/
         return max(root_)->data_;
     }
     int size() const {
@@ -77,21 +67,15 @@ public:
         if (root_ == NULL) {
             root_ = nu;
             ++size_;
-            //            std::cerr << "created root to be " << nu << "\n";
+//            std::cerr << "created root to be " << nu << "\n";
         } else {
             rb_node* cursor = root_;
             while (true) {
-                /*
-                 if (nu->data_ == cursor->data_) {
-                 ++(cursor->data_);
-                 break;
-                 } else if (nu->data_ < cursor->data_) {*/
-                
-                //                if (nu->data_ < cursor->data_) {
+//                if (nu->data_ < cursor->data_) {
                 if (less(nu->data_, cursor->data_)) {
                     if (cursor->less_ == NULL) {
                         cursor->less(nu);
-                        //                        std::cerr << "created " << cursor->less_ << "\n";
+//                        std::cerr << "created " << cursor->less_ << "\n";
                         ++size_;
                         break;
                     } else {
@@ -100,7 +84,7 @@ public:
                 } else {
                     if (cursor->more_ == NULL) {
                         cursor->more(nu);
-                        //                        std::cerr << "created " << cursor->more_ << "\n";
+//                        std::cerr << "created " << cursor->more_ << "\n";
                         ++size_;
                         break;
                     } else {
@@ -154,11 +138,11 @@ public:
         if (preorder) {
             previsit_do(root_, equalfunc, dofunc);
         } else {
-            postvisit_find(root_, equalfunc, dofunc);
+            postvisit_do(root_, equalfunc, dofunc);
         }
     }
     
-    // this one I just made and it can do either and/or if you write a good enough function
+    // this one I just made and it can do either and/or both if you write a good enough function
     typedef void visitfunc(T& t);
     template <typename visitfunc>
     void visit(visitfunc func, bool preorder=1) {
@@ -170,50 +154,13 @@ public:
     }
     
     
-    // not yet fully implemented
+    // FINALLY fully implemented
     void remove(const T& data) {
-        rb_node* node = find_node(data);
+        rb_node* node = find(data);
         
-        if (node == NULL) {
-            return;
-        } else {
-            if (node->less_ == NULL && node->more_ == NULL) {
-                if (node->parent_->less_ == node) {
-                    node->parent_->less_ = NULL;
-                } else {
-                    node->parent_->more_ = NULL;
-                }
-            } else if (node->less_ == NULL) {
-                if (node->parent_->less_ == node) {
-                    node->parent_->less_ = node->more_;
-                    node->more_->parent_ = node->parent_;
-                } else {
-                    node->parent_->more_ = node->more_;
-                    node->more_->parent_ = node->parent_;
-                }
-            } else if (node->more_ == NULL) {
-                if (node->parent_->less_ == node) {
-                    node->parent_->less_ = node->less_;
-                    node->less_->parent_ = node->parent_;
-                } else {
-                    node->parent_->more_ = node->less_;
-                    node->less_->parent_ = node->parent_;
-                }
-            } else {
-                
-                // !!!               // this needs to move pointers around
-                rb_node* moreptr = node->more_;
-                rb_node* tempptr;
-                moreptr->parent_ = node->parent_;
-                
-                moreptr->more(node);
-                
-                remove();
-                return;
-            }
+        if (node != NULL) {
+            del_node(node);
         }
-        
-        delete node;
     }
     
     void print(std::ostream& out, std::string& delimiter, bool ascending=true) const;
@@ -294,16 +241,16 @@ private:
     }
     
     void case_1(rb_node* node) {
-        //        std::cerr << "case_1; ";
+//        std::cerr << "case_1; ";
         if (node->parent_ == NULL) {
             node->color_ = BLACK;
-            //            std::cerr << "set " << node->data_ << " to be BLACK";
+//            std::cerr << "set " << node->data_ << " to be BLACK";
         } else {
             case_2(node);
         }
     }
     void case_2(rb_node* node) {
-        //        std::cerr << "case_2; ";
+//        std::cerr << "case_2; ";
         if (node->parent_->color_ == BLACK) {
             return;
         } else {
@@ -311,7 +258,7 @@ private:
         }
     }
     void case_3(rb_node* node) {
-        //        std::cerr << "case_3; ";
+//        std::cerr << "case_3; ";
         // already know that parent is RED
         if ((node->uncle() != NULL) && (node->uncle()->color_ == RED)) {
             node->parent_->color_ = BLACK;
@@ -324,17 +271,17 @@ private:
         }
     }
     void case_4(rb_node* node) {     // rotates if inner
-        //        std::cerr << "case_4, node = " << node->data_ << "\n";
+//        std::cerr << "case_4, node = " << node->data_ << "\n";
         // we know that parent is RED and uncle is BLACK
         
         // check if node is on its parent's 'more', and that
         if ((node->parent_->more_ == node) && (node->parent_ == node->grandparent()->less_)) {
-            //            std::cerr << "l-rot about " << node->parent_->data_ << "; ";
+//            std::cerr << "l-rot about " << node->parent_->data_ << "; ";
             rotate_left(node->parent_);
             
             node = node->less_;
         } else if ((node->parent_->less_ == node) && (node->parent_ == node->grandparent()->more_)) {
-            //            std::cerr << "r-rot about " << node->parent_->data_ << "; ";
+//            std::cerr << "r-rot about " << node->parent_->data_ << "; ";
             rotate_right(node->parent_);
             
             node = node->more_;
@@ -342,16 +289,16 @@ private:
         case_5(node);
     }
     void case_5(rb_node* node) {
-        //        std::cerr << "case_5; ";
-        //        std::cerr << "set " << node->parent_->data_ << " to be BLACK, set ";
+//        std::cerr << "case_5; ";
+//        std::cerr << "set " << node->parent_->data_ << " to be BLACK, set ";
         node->parent_->color_ = BLACK;
-        //        std::cerr << node->parent_->parent_->data_ << " to be RED\n";
+//        std::cerr << node->parent_->parent_->data_ << " to be RED\n";
         node->grandparent()->color_ = RED;
         if (node->parent_->less_ == node) {
-            //            std::cerr << "r-rot about " << node->parent_->parent_->data_ <<"; ";
+//            std::cerr << "r-rot about " << node->parent_->parent_->data_ <<"; ";
             rotate_right(node->grandparent());
         } else {
-            //            std::cerr << "l-rot about " << node->parent_->parent_->data_ <<"; ";
+//            std::cerr << "l-rot about " << node->parent_->parent_->data_ <<"; ";
             rotate_left(node->grandparent());
         }
     }
@@ -373,10 +320,8 @@ private:
         rb_node* cursor = root_;
         if (root_ != NULL) {
             while(true) {
-//                if (data == cursor->data_) {
                 if (equal(data, cursor->data_)) {
                     break;
-                    //                } else if (data < cursor->data_) {
                 } else if (less(data, cursor->data_)) {
                     if (cursor->less_ == NULL) {
                         cursor = NULL;
@@ -402,10 +347,9 @@ private:
         if (node == NULL) {
             return;
         } else {
+            previsit(node->less_, func);
             func(node->data_);
-            
-            previsit_find(node->less_, func);
-            previsit_find(node->more_, func);
+            previsit(node->more_, func);
         }
     }
     template <typename visitfunc>
@@ -413,10 +357,9 @@ private:
         if (node == NULL) {
             return;
         } else {
+            postvisit(node->more_, func);
             func(node->data_);
-            
-            postvisit_find(node->more_, func);
-            postvisit_find(node->less_, func);
+            postvisit(node->less_, func);
         }
     }
     
@@ -425,11 +368,10 @@ private:
         if (node == NULL) {
             return;
         } else {
+            previsit_find(node->less_, vect, equalfunc);
             if (equalfunc(node->data_)) {
                 vect.push_back(node->data_);
             }
-            
-            previsit_find(node->less_, vect, equalfunc);
             previsit_find(node->more_, vect, equalfunc);
         }
     }
@@ -438,11 +380,10 @@ private:
         if (node == NULL) {
             return;
         } else {
+            postvisit_find(node->more_, vect, equalfunc);
             if (equalfunc(node->data_)) {
                 vect.push_back(node->data_);
             }
-            
-            postvisit_find(node->more_, vect, equalfunc);
             postvisit_find(node->less_, vect, equalfunc);
         }
     }
@@ -452,11 +393,10 @@ private:
         if (node == NULL) {
             return;
         } else {
+            previsit_do(node->less_, equalfunc);
             if (equalfunc(node->data_)) {
                 dofunc(node->data_);
             }
-            
-            previsit_do(node->less_, equalfunc);
             previsit_do(node->more_, equalfunc);
         }
     }
@@ -465,11 +405,10 @@ private:
         if (node == NULL) {
             return;
         } else {
+            postvisit_do(node->more_, equalfunc, dofunc);
             if (equalfunc(node->data_)) {
                 dofunc(node->data_);
             }
-            
-            postvisit_do(node->more_, equalfunc, dofunc);
             postvisit_do(node->less_, equalfunc, dofunc);
         }
     }
@@ -501,6 +440,189 @@ private:
         }
     }
     
+    void del_node(rb_node* node) {
+        rb_node* temp;
+        if (node->less_ != NULL && node->more_ != NULL) {
+            // node has 2 leaves; time to fix that
+            // (swap node with the greatest node less than it)
+            temp = max(node->less_);
+            swap_nodes(temp, node);
+            
+            // now node has at most 1 leaf (color balance at temp unchanged)
+        }
+        del_twig(node);
+    }
+    
+    
+    void del_twig(rb_node* node) {
+        if (node->color_ == BLACK) {
+            del1(node);
+        }
+        
+        --size_;
+        if (node->parent_ != NULL) {
+            if (node == node->parent_->more_) {
+                node->parent_->more_ = NULL;
+            } else {
+                node->parent_->less_ = NULL;
+            }
+        }
+        delete node;
+    }
+    void del1(rb_node* n) {
+        if (n->parent_ != NULL) {
+            del2(n);
+        }
+    }
+    void del2(rb_node* n) {
+        // we know n must have a sibling, as n is black
+        rb_node* s = n->sibling();
+        
+        if (s->color_ == RED) {
+            n->parent_->color_ = RED;
+            s->color_ = BLACK;
+            if (n == n->parent_->less_) {
+                rotate_left(n->parent_);
+            } else {
+                rotate_right(n->parent_);
+            }
+        }
+        del3(n);
+    }
+    void del3(rb_node* n) {
+        // n->parent_, S, and S's children are black.
+        
+        rb_node* s = n->sibling();
+        
+        if (n->parent_->color_ == BLACK &&
+            s->color_ == BLACK &&
+            s->less_color() == BLACK &&
+            s->more_color() == BLACK) {
+            s->color_ = RED;
+            del1(n->parent_);
+        } else {
+            del4(n);
+        }
+    }
+    void del4(rb_node* n) {
+        // S and S's children are black, but n->parent_ is red.
+        
+        rb_node* s = n->sibling();
+        
+        if (n->parent_->color_ == BLACK &&
+            s->color_ == BLACK &&
+            s->less_color() == BLACK &&
+            s->more_color() == BLACK)
+        {
+            s->color_ = RED;
+            s->parent_->color_ = BLACK;
+        } else {
+            del5(n);
+        }
+    }
+    void del5(rb_node* n) {
+        rb_node* s = n->sibling();
+        
+        if (s->color_ == BLACK) {
+            if (n == n->parent_->more_ &&
+                s->more_color() == BLACK &&
+                s->less_color() == RED)
+            {
+                s->color_ = RED;
+                s->less_->color_ = BLACK;
+                rotate_right(s);
+            } else if (n == n->parent_->more_ &&
+                s->less_color() == BLACK &&
+                s->more_color() == RED)
+            {
+                s->color_ = RED;
+                s->more_->color_ = BLACK;
+                rotate_left(s);
+            }
+        }
+        del6(n);
+    }
+    void del6(rb_node* n) {
+        rb_node* s = n->sibling();
+        
+        s->color_ = n->parent_->color_;
+        n->parent_->color_ = BLACK;
+        
+        if (n == n->parent_->less_) {
+            s->more_->color_ = BLACK;
+            rotate_left(n->parent_);
+        } else {
+            s->less_->color_ = BLACK;
+            rotate_right(n->parent_);
+        }
+    }
+    
+    void swap_nodes(rb_node* n1, rb_node* n2) {
+/*        // neither of these should be happening, buuuut
+        if (n1 == NULL) {
+            remove(n2);
+            return;
+        } else if (n2 == NULL) {
+            remove(n1);
+            return;
+        }*/
+        
+        rb_node* temp = new rb_node(T());
+        
+        temp->color_ = n1->color_;
+        temp->parent_ = n1->parent_;
+        if (n1->parent_ != NULL) {
+            if (n1->parent_->more_ == n1) {
+            n1->parent_->more_ = n2;
+            } else {
+            n1->parent_->less_ = n2;
+            }
+        } else {
+            root_ = n2;
+        }
+        
+        temp->less_ = n1->less_;
+        temp->more_ = n1->more_;
+        if (temp->more_ != NULL) {
+            temp->more_->parent_ = n2;
+        }
+        if (temp->less_ != NULL) {
+            temp->less_->parent_ = n2;
+        }
+        
+        
+        n1->color_ = n2->color_;
+        n1->parent_ = n2->parent_;
+        if (n2->parent_ != NULL) {
+            if (n2->parent_->more_ == n2) {
+                n2->parent_->more_ = n1;
+            } else {
+                n2->parent_->less_ = n1;
+            }
+        } else {
+            root_ = n1;
+        }
+        
+        n1->more_ = n2->more_;
+        n1->less_ = n2->less_;
+        if (n1->more_ != NULL) {
+            n1->more_->parent_ = n1;
+        }
+        if (n1->less_ != NULL) {
+            n1->less_->parent_ = n1;
+        }
+        
+        
+        n2->color_ = temp->color_;
+        n2->parent_ = temp->parent_;
+        
+        n2->more_ = temp->more_;
+        n2->less_ = temp->less_;
+        
+        delete temp;
+    }
+    
+    // use the visit method instead
     void print_ascending(std::ostream& out, rb_node* node, std::string delimiter) const;
     void print_descending(std::ostream& out, rb_node* node, std::string delimiter) const;
     
@@ -508,12 +630,14 @@ private:
         if (node == NULL) {
             return;
         } else {
+//            std::cerr << "clearing " << node->more_ << std::endl;
             clear(node->more_);
+//            std::cerr << "clearing " << node->less_ << std::endl;
             clear(node->less_);
             delete node;
+            --size_;
         }
     }
-//    int count_leaves(rb_node* node) const;
     
     
     struct rb_node {
@@ -534,6 +658,21 @@ private:
             color_ = RED;
         }
         
+        color less_color() {
+            if (less_ == NULL) {
+                return BLACK;
+            } else {
+                return less_->color_;
+            }
+        }
+        color more_color() {
+            if (more_ == NULL) {
+                return BLACK;
+            } else {
+                return more_->color_;
+            }
+        }
+        
         void less(rb_node* child) {
             this->less_ = child;
             child->parent_ = this;
@@ -544,38 +683,38 @@ private:
         }
         
         rb_node* grandparent() const {
-            //            std::cerr << "calling 'grandparent' on " << data_ << ": ";
+//            std::cerr << "calling 'grandparent' on " << data_ << ": ";
             if (parent_->parent_) {
-                //                std::cerr << "return " << parent_->parent_->data_ << "\n";
+//                std::cerr << "return " << parent_->parent_->data_ << "\n";
             } else {
-                //                std::cerr << "return NULL\n";
+//                std::cerr << "return NULL\n";
             }
             return parent_->parent_;
         }
         rb_node* sibling() const {
-            //            std::cerr << "calling 'sibling' on " << data_ << ": ";
+//            std::cerr << "calling 'sibling' on " << data_ << ": ";
             if (parent_->less_ == this) {
-                //                std::cerr << "return " << parent_->more_->data_ << "\n";
+//                std::cerr << "return " << parent_->more_->data_ << "\n";
                 return parent_->more_;
             } else {
-                //                std::cerr << "return " << parent_->less_->data_ << "\n";
+//                std::cerr << "return " << parent_->less_->data_ << "\n";
                 return parent_->less_;
             }
         }
         rb_node* uncle() const {
-            //            std::cerr << "calling 'uncle' on " << data_ << ": ";
+//            std::cerr << "calling 'uncle' on " << data_ << ": ";
             if (grandparent()->less_ == parent_) {
                 if (parent_->parent_->more_) {
-                    //                    std::cerr << "return " << parent_->parent_->more_->data_ << "\n";
+//                    std::cerr << "return " << parent_->parent_->more_->data_ << "\n";
                 } else {
-                    //                    std::cerr << "return NULL\n";
+//                    std::cerr << "return NULL\n";
                 }
                 return grandparent()->more_;
             } else {
                 if (parent_->parent_->less_) {
-                    //                    std::cerr << "return " << parent_->parent_->less_->data_ << "\n";
+//                    std::cerr << "return " << parent_->parent_->less_->data_ << "\n";
                 } else {
-                    //                    std::cerr << "return NULL\n";
+//                    std::cerr << "return NULL\n";
                 }
                 return grandparent()->less_;
             }
