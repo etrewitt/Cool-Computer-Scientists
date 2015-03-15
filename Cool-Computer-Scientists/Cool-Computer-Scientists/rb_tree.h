@@ -453,7 +453,7 @@ private:
         del_twig(node);
     }
     
-    
+    // These largely adapted (didn't change THAT much, to be fair) from Wikipedia's examples.
     void del_twig(rb_node* node) {
         if (node->color_ == BLACK) {
             del1(node);
