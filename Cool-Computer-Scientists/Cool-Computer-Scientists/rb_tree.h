@@ -22,8 +22,6 @@
 #include <vector>
 
 template <typename T, typename lessthan, typename equalto>
-//template <typename T, typename lessthan>
-//template <typename T>
 class rb_tree {
 private:
     enum color { RED, BLACK };
@@ -34,7 +32,6 @@ private:
     rb_node* root_;
     int size_;
     
-    // these are to be implemented at a later date
     lessthan less;
     equalto equal;
 public:
@@ -67,15 +64,15 @@ public:
         if (root_ == NULL) {
             root_ = nu;
             ++size_;
-//            std::cerr << "created root to be " << nu << "\n";
+            //            std::cerr << "created root to be " << nu << "\n";
         } else {
             rb_node* cursor = root_;
             while (true) {
-//                if (nu->data_ < cursor->data_) {
+                //                if (nu->data_ < cursor->data_) {
                 if (less(nu->data_, cursor->data_)) {
                     if (cursor->less_ == NULL) {
                         cursor->less(nu);
-//                        std::cerr << "created " << cursor->less_ << "\n";
+                        //                        std::cerr << "created " << cursor->less_ << "\n";
                         ++size_;
                         break;
                     } else {
@@ -84,7 +81,7 @@ public:
                 } else {
                     if (cursor->more_ == NULL) {
                         cursor->more(nu);
-//                        std::cerr << "created " << cursor->more_ << "\n";
+                        //                        std::cerr << "created " << cursor->more_ << "\n";
                         ++size_;
                         break;
                     } else {
@@ -95,11 +92,6 @@ public:
         }
         case_1(nu);
     }
-    
-    // this returns the closest node to a given object
-    // "closeness" is measued by the method the lessthan function uses
-    // not sure how to implement this yet; I don't think it's even needed (or wanted)
-    rb_node* lookup(const T& data) const;
     
     rb_node* find(const T& data) const {
         rb_node* iter = root_;
@@ -132,6 +124,7 @@ public:
     }
     
     // this is like the visit function, except instead of returning the matching objects, it does things to them
+    // it should also never be used because visit() is Just Better
     typedef void funcdo(T& t);
     template <typename funcfind, typename funcdo>
     void visit_do(funcfind equalfunc, funcdo dofunc, bool preorder=1) {
@@ -163,7 +156,7 @@ public:
         }
     }
     
-    void print(std::ostream& out, std::string& delimiter, bool ascending=true) const;
+    //    void print(std::ostream& out, std::string& delimiter, bool ascending=true) const;
     
     void basic_print(std::ostream& out, std::string delimiter="\n") const {
         out << size_ << " elements in the tree:\n";
@@ -175,8 +168,6 @@ public:
         clear(root_);
     }
     void rebalance();
-    
-    int* count_branches() const;
     
 private:
     void rotate_left(rb_node* node) {
@@ -241,16 +232,16 @@ private:
     }
     
     void case_1(rb_node* node) {
-//        std::cerr << "case_1; ";
+        //        std::cerr << "case_1; ";
         if (node->parent_ == NULL) {
             node->color_ = BLACK;
-//            std::cerr << "set " << node->data_ << " to be BLACK";
+            //            std::cerr << "set " << node->data_ << " to be BLACK";
         } else {
             case_2(node);
         }
     }
     void case_2(rb_node* node) {
-//        std::cerr << "case_2; ";
+        //        std::cerr << "case_2; ";
         if (node->parent_->color_ == BLACK) {
             return;
         } else {
@@ -258,7 +249,7 @@ private:
         }
     }
     void case_3(rb_node* node) {
-//        std::cerr << "case_3; ";
+        //        std::cerr << "case_3; ";
         // already know that parent is RED
         if ((node->uncle() != NULL) && (node->uncle()->color_ == RED)) {
             node->parent_->color_ = BLACK;
@@ -271,17 +262,17 @@ private:
         }
     }
     void case_4(rb_node* node) {     // rotates if inner
-//        std::cerr << "case_4, node = " << node->data_ << "\n";
+        //        std::cerr << "case_4, node = " << node->data_ << "\n";
         // we know that parent is RED and uncle is BLACK
         
         // check if node is on its parent's 'more', and that
         if ((node->parent_->more_ == node) && (node->parent_ == node->grandparent()->less_)) {
-//            std::cerr << "l-rot about " << node->parent_->data_ << "; ";
+            //            std::cerr << "l-rot about " << node->parent_->data_ << "; ";
             rotate_left(node->parent_);
             
             node = node->less_;
         } else if ((node->parent_->less_ == node) && (node->parent_ == node->grandparent()->more_)) {
-//            std::cerr << "r-rot about " << node->parent_->data_ << "; ";
+            //            std::cerr << "r-rot about " << node->parent_->data_ << "; ";
             rotate_right(node->parent_);
             
             node = node->more_;
@@ -289,16 +280,16 @@ private:
         case_5(node);
     }
     void case_5(rb_node* node) {
-//        std::cerr << "case_5; ";
-//        std::cerr << "set " << node->parent_->data_ << " to be BLACK, set ";
+        //        std::cerr << "case_5; ";
+        //        std::cerr << "set " << node->parent_->data_ << " to be BLACK, set ";
         node->parent_->color_ = BLACK;
-//        std::cerr << node->parent_->parent_->data_ << " to be RED\n";
+        //        std::cerr << node->parent_->parent_->data_ << " to be RED\n";
         node->grandparent()->color_ = RED;
         if (node->parent_->less_ == node) {
-//            std::cerr << "r-rot about " << node->parent_->parent_->data_ <<"; ";
+            //            std::cerr << "r-rot about " << node->parent_->parent_->data_ <<"; ";
             rotate_right(node->grandparent());
         } else {
-//            std::cerr << "l-rot about " << node->parent_->parent_->data_ <<"; ";
+            //            std::cerr << "l-rot about " << node->parent_->parent_->data_ <<"; ";
             rotate_left(node->grandparent());
         }
     }
@@ -532,8 +523,8 @@ private:
                 s->less_->color_ = BLACK;
                 rotate_right(s);
             } else if (n == n->parent_->more_ &&
-                s->less_color() == BLACK &&
-                s->more_color() == RED)
+                       s->less_color() == BLACK &&
+                       s->more_color() == RED)
             {
                 s->color_ = RED;
                 s->more_->color_ = BLACK;
@@ -558,14 +549,14 @@ private:
     }
     
     void swap_nodes(rb_node* n1, rb_node* n2) {
-/*        // neither of these should be happening, buuuut
-        if (n1 == NULL) {
-            remove(n2);
-            return;
-        } else if (n2 == NULL) {
-            remove(n1);
-            return;
-        }*/
+        /*        // neither of these should be happening, buuuut
+         if (n1 == NULL) {
+         remove(n2);
+         return;
+         } else if (n2 == NULL) {
+         remove(n1);
+         return;
+         }*/
         
         rb_node* temp = new rb_node(T());
         
@@ -573,9 +564,9 @@ private:
         temp->parent_ = n1->parent_;
         if (n1->parent_ != NULL) {
             if (n1->parent_->more_ == n1) {
-            n1->parent_->more_ = n2;
+                n1->parent_->more_ = n2;
             } else {
-            n1->parent_->less_ = n2;
+                n1->parent_->less_ = n2;
             }
         } else {
             root_ = n2;
@@ -623,16 +614,16 @@ private:
     }
     
     // use the visit method instead
-    void print_ascending(std::ostream& out, rb_node* node, std::string delimiter) const;
-    void print_descending(std::ostream& out, rb_node* node, std::string delimiter) const;
+    //    void print_ascending(std::ostream& out, rb_node* node, std::string delimiter) const;
+    //    void print_descending(std::ostream& out, rb_node* node, std::string delimiter) const;
     
     void clear(rb_node* node) {
         if (node == NULL) {
             return;
         } else {
-//            std::cerr << "clearing " << node->more_ << std::endl;
+            //            std::cerr << "clearing " << node->more_ << std::endl;
             clear(node->more_);
-//            std::cerr << "clearing " << node->less_ << std::endl;
+            //            std::cerr << "clearing " << node->less_ << std::endl;
             clear(node->less_);
             delete node;
             --size_;
@@ -683,38 +674,38 @@ private:
         }
         
         rb_node* grandparent() const {
-//            std::cerr << "calling 'grandparent' on " << data_ << ": ";
+            //            std::cerr << "calling 'grandparent' on " << data_ << ": ";
             if (parent_->parent_) {
-//                std::cerr << "return " << parent_->parent_->data_ << "\n";
+                //                std::cerr << "return " << parent_->parent_->data_ << "\n";
             } else {
-//                std::cerr << "return NULL\n";
+                //                std::cerr << "return NULL\n";
             }
             return parent_->parent_;
         }
         rb_node* sibling() const {
-//            std::cerr << "calling 'sibling' on " << data_ << ": ";
+            //            std::cerr << "calling 'sibling' on " << data_ << ": ";
             if (parent_->less_ == this) {
-//                std::cerr << "return " << parent_->more_->data_ << "\n";
+                //                std::cerr << "return " << parent_->more_->data_ << "\n";
                 return parent_->more_;
             } else {
-//                std::cerr << "return " << parent_->less_->data_ << "\n";
+                //                std::cerr << "return " << parent_->less_->data_ << "\n";
                 return parent_->less_;
             }
         }
         rb_node* uncle() const {
-//            std::cerr << "calling 'uncle' on " << data_ << ": ";
+            //            std::cerr << "calling 'uncle' on " << data_ << ": ";
             if (grandparent()->less_ == parent_) {
                 if (parent_->parent_->more_) {
-//                    std::cerr << "return " << parent_->parent_->more_->data_ << "\n";
+                    //                    std::cerr << "return " << parent_->parent_->more_->data_ << "\n";
                 } else {
-//                    std::cerr << "return NULL\n";
+                    //                    std::cerr << "return NULL\n";
                 }
                 return grandparent()->more_;
             } else {
                 if (parent_->parent_->less_) {
-//                    std::cerr << "return " << parent_->parent_->less_->data_ << "\n";
+                    //                    std::cerr << "return " << parent_->parent_->less_->data_ << "\n";
                 } else {
-//                    std::cerr << "return NULL\n";
+                    //                    std::cerr << "return NULL\n";
                 }
                 return grandparent()->less_;
             }
