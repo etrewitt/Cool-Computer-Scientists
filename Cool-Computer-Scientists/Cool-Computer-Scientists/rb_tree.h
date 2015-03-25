@@ -20,6 +20,7 @@
 #include <cstdlib>
 #include <iostream>
 #include <vector>
+#include <iomanip>
 
 template <typename T, typename lessthan, typename equalto>
 class rb_tree {
@@ -404,30 +405,42 @@ private:
         }
     }
     
-    void basic_print(std::ostream& out, rb_node* node, std::string delimiter) const {
+    void basic_print(std::ostream& out, rb_node* node, std::string delimiter, int indent=0) const {
         if (node == NULL) {
             return;
         }
         
         if (node->less_ == NULL && node->more_ == NULL) {
+            if (indent) {
+                out << std::setw(indent) << ' ';
+            }
             out << node->data_ << delimiter;
             return;
         }
         
         if (node->less_ == NULL) {
+            if (indent) {
+                out << std::setw(indent) << ' ';
+            }
             out << node->data_ << delimiter;
         } else {
-            basic_print(out, node->less_, delimiter);
+            basic_print(out, node->less_, delimiter, indent+4);
         }
         
         if (node->less_ != NULL && node->more_ != NULL) {
+            if (indent) {
+                out << std::setw(indent) << ' ';
+            }
             out << node->data_ << delimiter;
         }
         
         if (node->more_ == NULL) {
+            if (indent) {
+                out << std::setw(indent) << ' ';
+            }
             out << node->data_ << delimiter;
         } else {
-            basic_print(out, node->more_, delimiter);
+            basic_print(out, node->more_, delimiter, indent+4);
         }
     }
     

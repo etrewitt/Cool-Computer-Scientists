@@ -69,6 +69,8 @@ int main(int argc, const char * argv[]) {
     
     itree.visit(sp);
     
+    itree.basic_print(std::cout);
+    
     itree.remove(35);
     
     itree.visit(sp);
